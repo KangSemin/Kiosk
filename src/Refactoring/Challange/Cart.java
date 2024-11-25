@@ -2,6 +2,7 @@ package Refactoring.Challange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Cart {
 
@@ -16,7 +17,7 @@ public class Cart {
     }
 
     // 카트 항목들
-    private final List<MenuItem> cartItems = new ArrayList<>();
+    private List<MenuItem> cartItems = new ArrayList<>();
     private float total = 0;
 
     // 카트에 담긴 항목 수 반환
@@ -32,7 +33,24 @@ public class Cart {
 
     // 카트 항목들 반환
     public List<MenuItem> getCartItems() {
-        return new ArrayList<>(cartItems);
+            cartItems = getUpdatedCartItems();
+            recalculateTotal();
+            return cartItems;
+    }
+
+    public List<MenuItem> getUpdatedCartItems() {
+        boolean hasBurger = cartItems.stream()
+                .anyMatch(menuItem -> menuItem.getCategory().equals(Category.BURGER));
+
+        // 햄버거가 있다면 피클 제거
+        if (hasBurger) {
+            return cartItems.stream()
+                    .filter(menuItem -> !menuItem.getName().equals("Pickle"))
+                    .collect(Collectors.toList());
+        }
+
+        // 햄버거가 없으면 기존 리스트 그대로 반환
+        return cartItems;
     }
 
     // 카트에 항목 추가

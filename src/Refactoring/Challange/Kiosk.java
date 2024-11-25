@@ -9,7 +9,6 @@ public class Kiosk {
     private int currentItem;
     private final Scanner sc;
     private final Cart cart;
-
     public Kiosk(List<Menu> menu) {
         this.menu = menu;
         this.sc = new Scanner(System.in);
@@ -35,7 +34,7 @@ public class Kiosk {
         }
     }
 
-    
+
     private void displayMenu() {
         Display.drawLine();
         Display.printMenu(menu);
@@ -101,7 +100,7 @@ public class Kiosk {
 
             if (isValidDiscountSelection(currentItem)) {
                 Display.completeParchase(cart.getDiscountedPrice(Discount.getRateByOption(currentItem)));
-                return;
+                cart.clear();
             }
         }
     }
