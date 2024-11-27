@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 public class Cart {
 
     // Singleton 패턴
-    private static final Cart _instance = new Cart();
+    private static final Cart INSTANCE = new Cart();
 
     private Cart() {
     }
 
     public static Cart instance() {
-        return _instance;
+        return INSTANCE;
     }
 
     // 카트 항목들
@@ -33,9 +33,9 @@ public class Cart {
 
     // 카트 항목들 반환
     public List<MenuItem> getCartItems() {
-            cartItems = getUpdatedCartItems();
-            recalculateTotal();
-            return cartItems;
+        cartItems = getUpdatedCartItems();
+        recalculateTotal();
+        return cartItems;
     }
 
     public List<MenuItem> getUpdatedCartItems() {
@@ -86,3 +86,4 @@ public class Cart {
         total = (float) cartItems.stream().mapToDouble(MenuItem::getPrice).sum();
     }
 }
+

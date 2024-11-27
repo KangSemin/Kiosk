@@ -9,6 +9,7 @@ public class Kiosk {
     private int currentItem;
     private final Scanner sc;
     private final Cart cart;
+
     public Kiosk(List<Menu> menu) {
         this.menu = menu;
         this.sc = new Scanner(System.in);
@@ -25,10 +26,14 @@ public class Kiosk {
                 Display.printOrderMenu(menu.size() + 1, menu.size() + 2);
             }
 
-            currentMenu = sc.nextInt();
-            if (isExit(currentMenu)) return; //돌아가기에 해당하는 숫자가 입력됐을 시, return
+            currentMenu = sc.next().charAt(0) - '0';
+            if (isExit(currentMenu)) {
+                return;
+            }//돌아가기에 해당하는 숫자가 입력됐을 시, return
 
-            if (!isValidMenuSelection(currentMenu)) continue; //범위 외 숫자가 입력됐을 시, 건너뛰기
+            if (!isValidMenuSelection(currentMenu)) {
+                continue;
+            } //범위 외 숫자가 입력됐을 시, 건너뛰기
 
             handleMenuSelection();
         }
@@ -61,12 +66,14 @@ public class Kiosk {
             handleCart();
         } else {
             cart.clear();
+
+
         }
     }
 
     private void displayItems() {
         Display.drawLine();
-        Display.printItems(menu.get(currentMenu - 1).getItems());
+        Display.printItems(menu.get(currentMenu - 1).items());
         System.out.println("0. Back");
         Display.drawLine();
         currentItem = sc.nextInt();
@@ -82,7 +89,7 @@ public class Kiosk {
     }
 
     private boolean isValidItemSelection(int itemSelection) {
-        return itemSelection > 0 && itemSelection <= menu.get(currentMenu - 1).getItems().size();
+        return itemSelection > 0 && itemSelection <= menu.get(currentMenu - 1).items().size();
     }
 
     private boolean confirmAddToCart() {
@@ -93,13 +100,13 @@ public class Kiosk {
     private void handleCart() {
         Display.printPurchase(cart.getCartItems(), cart.getTotal());
 
-        currentItem = sc.nextInt();
+        currentItem = sc.next().charAt(0) - '0';
         if (currentItem == 1) {
             Display.discountMenu();
-            currentItem = sc.nextInt();
+            currentItem = sc.next().charAt(0) - '0';
 
             if (isValidDiscountSelection(currentItem)) {
-                Display.completeParchase(cart.getDiscountedPrice(Discount.getRateByOption(currentItem)));
+                Display.completePurchase(cart.getDiscountedPrice(Discount.getRateByOption(currentItem)));
                 cart.clear();
             }
         }

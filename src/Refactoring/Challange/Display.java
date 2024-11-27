@@ -26,7 +26,7 @@ public class Display {
         int i = 0;
         for (Menu m : menu) {
             System.out.printf("%d. ", ++i);
-            coloredPrint(m.getCategory().name(), Color.GREEN);
+            coloredPrint(m.category().name(), Color.GREEN);
             System.out.println();
         }
         coloredPrint("0. Exit\n", Color.RED);
@@ -93,7 +93,7 @@ public class Display {
         drawLine();
     }
 
-    public static void completeParchase(float price) {
+    public static void completePurchase(float price) {
         coloredPrint("The order is complete.", Color.PURPLE);
         System.out.print("Total amount: W ");
         coloredPrint(String.valueOf(price), Color.YELLOW);
@@ -119,12 +119,13 @@ public class Display {
 
     private static void coloredPrint(String text, Color color) {
         System.out.printf("%s%s%s ", color.code, text, Color.RESET.code);
+
     }
 
     private static void printPriceAndDescription(MenuItem item) {
         for (int i = 0; i < 15 - item.getName().length(); i++) System.out.print(" ");
         drawPartition();
-        System.out.printf("W ");
+        System.out.print("W ");
         coloredPrint(String.valueOf(item.getPrice()), Color.PURPLE);
         drawPartition();
         coloredPrint(item.getDescription(), Color.YELLOW);
